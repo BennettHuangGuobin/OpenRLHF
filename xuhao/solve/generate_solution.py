@@ -192,7 +192,7 @@ def batch_generate(args):
             json.dump(sorted_outputs, f, indent=4)
 
 def main():
-    pretrain = "/root/data/models/actor-llama-3.1-8b-sft-gsm8k-st"
+    pretrain = "/home/chaowei/data/models/actor-llama-3.1-8b-sft-gsm8k-st"
     dataset = "openai/gsm8k"
     input_key = "question"
     max_samples = 128

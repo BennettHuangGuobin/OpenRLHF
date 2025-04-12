@@ -33,6 +33,8 @@ def train(args):
         ds_config=strategy.get_ds_train_config(is_actor=True),
         packing_samples=args.packing_samples,
     )
+
+    
     # configure tokenizer
     tokenizer = get_tokenizer(args.pretrain, model.model, "right", strategy, use_fast=not args.disable_fast_tokenizer)
     with open("xuhao/sft_am/data/input/chat_template.txt", 'r') as f:
@@ -122,6 +124,7 @@ def train(args):
         scheduler_specific_kwargs={"min_lr": args.learning_rate * 0.1},
     )
 
+    
     # prepare models
     (model, optim, scheduler) = strategy.prepare((model, optim, scheduler))
 
@@ -162,18 +165,18 @@ if __name__ == "__main__":
 
     eval_steps = 10
     eval_acc_steps = 1e8
-    pretrain = "/root/data/models/Meta-Llama-3.1-8B"
+    pretrain = "/home/chaowei/data/models/Meta-Llama-3.1-8B"
     max_samples = 1e8
     dataset = "openai/gsm8k"
     load_checkpoint = False
-    max_epoches = 2000
+    max_epoches = 2
     input_key = "question"
     output_key = "answer"
-    save_path = "/root/data/sft_am/ckpt_1"
-    ckpt_path = "/root/data/sft_am/ckpt_1/checkpoints_sft"
+    save_path = "/home/chaowei/HGB_data/sft_am/ckpt_1"
+    ckpt_path = "/home/chaowei/HGB_data/sft_am/ckpt_1/checkpoints_sft"
 
     micro_train_batch_size = 8
-    train_batch_size = 32
+    train_batch_size = 96
 
 
     # Checkpoint
@@ -287,5 +290,5 @@ if __name__ == "__main__":
         assert args.packing_samples, "packing_samples must be enabled when using ring attention"
 
     print("Process ID: ", os.getpid())
-
+    
     train(args)
